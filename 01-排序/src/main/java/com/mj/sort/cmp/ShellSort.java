@@ -1,0 +1,75 @@
+package com.mj.sort.cmp;
+
+import com.mj.sort.Sort;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+@SuppressWarnings("unused")
+public class ShellSort<T extends Comparable<T>> extends Sort<T> {
+
+	@Override
+	protected void sort() {
+		List<Integer> stepSequence = sedgewickStepSequence();
+		for (Integer step : stepSequence) {
+			sort(step);
+		}
+	}
+	
+	/**
+	 * 分成step列进行排序
+	 */
+	private void sort(int step) {
+		// col : 第几列，column的简称
+		for (int col = 0; col < step; col++) { // 对第col列进行排序
+			// col、col+step、col+2*step、col+3*step
+			// 默认抽到col的牌，因此从col+step继续摸牌
+			// 下面的方法即改造之后的插入排序
+			for (int begin = col + step; begin < array.length; begin += step) {
+				int cur = begin;
+				while (cur > col && cmp(cur, cur - step) < 0) {
+					swap(cur, cur - step);
+					cur -= step;
+				}
+			}
+		}
+	}
+
+	/**
+	 * 生成希尔本人提供的步长序列
+	 */
+	private List<Integer> shellStepSequence() {
+		List<Integer> stepSequence = new ArrayList<>();
+		int step = array.length;
+		// step = step >> 1
+		while ((step >>= 1) > 0) {
+			stepSequence.add(step);
+		}
+		return stepSequence;
+	}
+
+	/**
+	 * 生成步长序列
+	 */
+	private List<Integer> sedgewickStepSequence() {
+		List<Integer> stepSequence = new LinkedList<>();
+		int k = 0, step = 0;
+		while (true) {
+			if (k % 2 == 0) {
+				int pow = (int) Math.pow(2, k >> 1);
+				step = 1 + 9 * (pow * pow - pow);
+			} else {
+				int pow1 = (int) Math.pow(2, (k - 1) >> 1);
+				int pow2 = (int) Math.pow(2, (k + 1) >> 1);
+				step = 1 + 8 * pow1 * pow2 - 6 * pow2;
+			}
+			// 求出来的列，大于等于array长度则break
+			if (step >= array.length) break;
+			// 大数始终放在前面
+			stepSequence.add(0, step);
+			k++;
+		}
+		return stepSequence;
+	}
+}
