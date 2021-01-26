@@ -4,7 +4,7 @@ public class Queens {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new Queens().placeQueens(4);
+		new Queens().placeQueens(8);
 	}
 	
 	/**
@@ -24,12 +24,13 @@ public class Queens {
 	}
 	
 	/**
+	 * 以行为单位，二叉树是以节点为单位
 	 * 从第row行开始摆放皇后
 	 * @param row
 	 */
 	void place(int row) {
 		if (row == cols.length) {
-			ways++;
+			ways++; // 找到了，摆法+1
 			show();
 			return;
 		}
@@ -38,6 +39,7 @@ public class Queens {
 			if (isValid(row, col)) {
 				// 在第row行第col列摆放皇后
 				cols[row] = col;
+				// 返回后位于上一次放置皇后的地方，然后继续循环
 				place(row + 1);
 			}
 		}
