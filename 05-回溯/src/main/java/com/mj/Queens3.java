@@ -1,5 +1,8 @@
 package com.mj;
 
+/**
+ * 此种方案不要超过8皇后
+ */
 public class Queens3 {
 
 	public static void main(String[] args) {
@@ -20,16 +23,15 @@ public class Queens3 {
 		
 //		System.out.println(Integer.toBinaryString(n));
 		
-		// TODO Auto-generated method stub
 		new Queens3().place8Queens();
 	}
-	
 	/**
 	 * 数组索引是行号，数组元素是列号
 	 */
 	int[] queens;
 	/**
-	 * 标记着某一列是否有皇后
+	 * 标记着某一列是否有皇后，用一个字节取代长度为8的布尔数组
+	 * [true,true,true,true,false,false,false,false]  相当于11110000
 	 */
 	byte cols;
 	/**
@@ -50,7 +52,7 @@ public class Queens3 {
 		place(0);
 		System.out.println("8皇后一共有" + ways + "种摆法");
 	}
-	
+
 	/**
 	 * 从第row行开始摆放皇后
 	 * @param row
@@ -63,14 +65,21 @@ public class Queens3 {
 		}
 		
 		for (int col = 0; col < 8; col++) {
+			// 1向左移几位 1、10、100、1000、...
 			int cv = 1 << col;
-			if ((cols & cv) != 0) continue;
+			if ((cols & cv) != 0) {
+				continue;
+			}
 			
 			int lv = 1 << (row - col + 7);
-			if ((leftTop & lv) != 0) continue;
-			
+			if ((leftTop & lv) != 0) {
+				continue;
+			}
+
 			int rv = 1 << (row + col);
-			if ((rightTop & rv) != 0) continue;
+			if ((rightTop & rv) != 0) {
+				continue;
+			}
 			
 			queens[row] = col;
 			cols |= cv;

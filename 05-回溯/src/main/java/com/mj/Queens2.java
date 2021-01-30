@@ -3,12 +3,11 @@ package com.mj;
 public class Queens2 {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new Queens2().placeQueens(4);
+		new Queens2().placeQueens(16);
 	}
 	
 	/**
-	 * 数组索引是行号，数组元素是列号
+	 * 数组索引是行号，数组元素是列号（相当于Queens中的cols）在此用于展示数据
 	 */
 	int[] queens;
 	/**
@@ -29,7 +28,9 @@ public class Queens2 {
 	int ways;
 	
 	void placeQueens(int n) {
-		if (n < 1) return;
+		if (n < 1) {
+			return;
+		}
 		queens = new int[n];
 		cols = new boolean[n];
 		leftTop = new boolean[(n << 1) - 1];
@@ -45,22 +46,35 @@ public class Queens2 {
 	void place(int row) {
 		if (row == cols.length) {
 			ways++;
-			show();
+//			show();
 			return;
 		}
 		
 		for (int col = 0; col < cols.length; col++) {
-			if (cols[col]) continue;
+			// 如果第col列已经有皇后
+			if (cols[col]) {
+				continue;
+			}
+			// lt leftTop ；ltIndex 哪一条斜线的索引，算法较为抽象，以八皇后棋盘为基准想象
 			int ltIndex = row - col + cols.length - 1;
-			if (leftTop[ltIndex]) continue;
+			if (leftTop[ltIndex]) {
+				continue;
+			}
+			// rt rightTop
 			int rtIndex = row +col;
-			if (rightTop[rtIndex]) continue;
-			
-			queens[row] = col;
+			if (rightTop[rtIndex]) {
+				continue;
+			}
+
+			// 情况都满足时放置皇后，因为放置了皇后，该列/左右斜线索引标记为true
+			queens[row] = col;// 列号直接覆盖，发生回溯不需要还原
 			cols[col] = true;
 			leftTop[ltIndex] = true;
 			rightTop[rtIndex] = true;
+
 			place(row + 1);
+
+			// 回溯时之前放置的皇后的失效
 			cols[col] = false;
 			leftTop[ltIndex] = false;
 			rightTop[rtIndex] = false;
