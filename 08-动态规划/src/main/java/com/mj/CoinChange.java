@@ -30,14 +30,14 @@ public class CoinChange {
         for (int i = 1; i <= n; i++) {
             int min = Integer.MAX_VALUE;
             for (int face : faces) {
-                if (i < face) {
+                // 当前i小于面值所以凑不齐;之前就凑不齐导致当前也凑不齐
+                if (i < face || dp[i - face] < 0) {
                     continue;
                 }
-                int v = dp[i - face];
-                if (v < 0 || v >= min) {
+                if (dp[i - face] >= min) {
                     continue;
                 }
-                min = v;
+                min = dp[i - face];
             }
             if (min == Integer.MAX_VALUE) {
                 dp[i] = -1;

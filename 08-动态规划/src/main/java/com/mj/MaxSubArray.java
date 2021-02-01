@@ -6,7 +6,9 @@ public class MaxSubArray {
 	}
 	
 	static int maxSubArray2(int[] nums) {
-		if (nums == null || nums.length == 0) return 0;
+		if (nums == null || nums.length == 0) {
+			return 0;
+		}
 		int dp = nums[0];
 		int max = dp;
 		for (int i = 1; i < nums.length; i++) {
@@ -19,12 +21,20 @@ public class MaxSubArray {
 		}
 		return max;
 	}
-	
+
+	/**
+	 * 以nums[i]为结尾的最大连续子序列的和
+	 */
 	static int maxSubArray1(int[] nums) {
-		if (nums == null || nums.length == 0) return 0;
+		if (nums == null || nums.length == 0) {
+			return 0;
+		}
 		int[] dp = new int[nums.length];
+		// 初始值
 		dp[0] = nums[0];
+		// 最终结果的处理
 		int max = dp[0];
+		// 状态转移方程
 		for (int i = 1; i < dp.length; i++) {
 			int prev = dp[i - 1];
 			if (prev <= 0) {
