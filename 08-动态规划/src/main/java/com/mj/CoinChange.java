@@ -19,15 +19,24 @@ public class CoinChange {
         // min { dp(40), dp(36), dp(16), dp(21) } + 1
     }
 
+    /**
+     * 凑齐n分钱所需要的最小硬币个数，凑不齐返回-1
+     */
     static int coins5(int n, int[] faces) {
-        if (n < 1 || faces == null || faces.length == 0) return -1;
+        if (n < 1 || faces == null || faces.length == 0) {
+            return -1;
+        }
         int[] dp = new int[n + 1];
         for (int i = 1; i <= n; i++) {
             int min = Integer.MAX_VALUE;
             for (int face : faces) {
-                if (i < face) continue;
+                if (i < face) {
+                    continue;
+                }
                 int v = dp[i - face];
-                if (v < 0 || v >= min) continue;
+                if (v < 0 || v >= min) {
+                    continue;
+                }
                 min = v;
             }
             if (min == Integer.MAX_VALUE) {
@@ -40,7 +49,9 @@ public class CoinChange {
     }
 
     static int coins4(int n) {
-        if (n < 1) return -1;
+        if (n < 1) {
+            return -1;
+        }
         int[] dp = new int[n + 1];
         // faces[i]是凑够i分时最后那枚硬币的面值
         int[] faces = new int[dp.length];
