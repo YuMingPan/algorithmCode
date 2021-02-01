@@ -97,10 +97,13 @@ public class LCS {
 	static int lcs2(int[] nums1, int[] nums2) {
 		if (nums1 == null || nums1.length == 0) return 0;
 		if (nums2 == null || nums2.length == 0) return 0;
+		// dp的索引实际表示 nums1的前i个元素，nums2的前j个元素
 		int[][] dp = new int[nums1.length + 1][nums2.length + 1];
+		// 注意从1开始
 		for (int i = 1; i <= nums1.length; i++) {
 			for (int j = 1; j <= nums2.length; j++) {
 				if (nums1[i - 1] == nums2[j - 1]) {
+					// 方法调用转为从数组中获取
 					dp[i][j] = dp[i - 1][j - 1] + 1;
 				} else {
 					dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
@@ -118,6 +121,7 @@ public class LCS {
 	
 	/**
 	 * 求nums1前i个元素和nums2前j个元素的最长公共子序列长度
+	 * 注意个数和索引别乱套了，方法上的是个数，数组上的是索引
 	 * @param nums1
 	 * @param i
 	 * @param nums2

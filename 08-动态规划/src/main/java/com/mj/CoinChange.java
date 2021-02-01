@@ -27,7 +27,9 @@ public class CoinChange {
             return -1;
         }
         int[] dp = new int[n + 1];
+        // 注意i从1开始，小于等于n
         for (int i = 1; i <= n; i++) {
+            // 注意这里是MAX_VALUE，我后面是要挑一个更小的，所以min的初始值要足够大
             int min = Integer.MAX_VALUE;
             for (int face : faces) {
                 // 当前i小于面值所以凑不齐;之前就凑不齐导致当前也凑不齐
