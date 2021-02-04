@@ -26,6 +26,8 @@ public class LCSubstring {
 					dp[col] = 0;
 				} else {
 					dp[col] = dp[col - 1] + 1;
+					// 在覆盖前
+					// 比较 dp[col-1]和dp[col](此时代表上一行的dp[col])挑一个最大的
 					max = Math.max(dp[col], max);
 				}
 			}
