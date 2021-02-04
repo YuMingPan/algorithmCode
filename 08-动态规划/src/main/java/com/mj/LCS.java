@@ -64,8 +64,8 @@ public class LCS {
 		for (int i = 1; i <= nums1.length; i++) {
 			int cur = 0;
 			for (int j = 1; j <= nums2.length; j++) {
-				int leftTop = cur;
-				cur = dp[j];
+				int leftTop = cur;	// leftTop使用的是上一次cur保存的结果
+				cur = dp[j];	// dp[j]的值进行覆盖前先进行保存，作为下一次的leftTop
 				if (nums1[i - 1] == nums2[j - 1]) {
 					dp[j] = leftTop + 1;
 				} else {
